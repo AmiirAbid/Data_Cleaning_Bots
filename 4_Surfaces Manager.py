@@ -57,7 +57,7 @@ for i in range(2, sheet.max_row + 1):
         print(cellE.value)
 
     # Check if the "surface habitable" and "surface terrain" are swapped
-    if (cellD.value is not None and cellE.value is not None) and cellE.value < cellD.value:
+    if (cellD.value is not None and cellE.value is not None) and cellD.value and cellE.value and cellE.value < cellD.value:
         # Swap the values
         cellD.value, cellE.value = cellE.value, cellD.value
         print(cellD.value,'/',cellE.value)
