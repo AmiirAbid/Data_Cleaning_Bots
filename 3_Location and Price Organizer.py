@@ -3,8 +3,9 @@ import openpyxl
 
 # Open the file where you have the data to manipulate
 wb = openpyxl.load_workbook('file_path')
+
 # Open the desired worksheet in the xlsx file
-sheet = wb.active
+sheet = wb['sheet_name']
 
 # Initialize a counter on the second row, skipping the table headers
 i=2
@@ -18,23 +19,24 @@ while i < sheet.max_row+1 :
     # Acess the price cell in the i row, B column
     price = sheet.cell(row = i, column = 2)
 
-    # Acess the cell in the i row, C column
+    # Acess the location cell in the i row, C column
     location = sheet.cell(row = i, column = 3)
 
-    # Acess the cell in the i row, G column
+    # Acess the state cell in the i row, G column
     state = sheet.cell(row = i, column = 7)
 
-    # Check if there is no price
-    if (price.value == "Contactez l'annonceur" or location.value == "Contactez l'annonceur"):
-        
-        # Delete the row that doesn't contain the price
-        sheet.delete_rows(i)
-    
     # Check if the price and location are swapped
     if (location.value[0] in ['0','1','2','3','4','5','6','7','8','9']) :
         location.value = price.value
         price.value = location.value
 
+    # Check if there is no price
+    if (price.value == None):
+        
+        # Delete the row that doesn't contain the price
+        sheet.delete_rows(i)
+
+    # Split the state and city into different cells from the location cell
     try :
         state.value = location.value.split(',')[1]
         location.value = location.value.split(',')[0]

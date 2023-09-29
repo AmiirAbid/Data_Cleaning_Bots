@@ -1,8 +1,9 @@
+# Import essential libraries
 import os
 import openpyxl
 
 # Define the folder containing XLSX files
-folder_path = 'file path'
+folder_path = 'folder_path'
 
 # Initialize an empty list to store all rows
 all_rows = []

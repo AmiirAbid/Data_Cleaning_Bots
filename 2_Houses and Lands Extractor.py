@@ -2,9 +2,10 @@
 import openpyxl
 
 # Open the file where you have the data to manipulate
-wb = openpyxl.load_workbook('../Data sheets/ORIGINAL DATA.xlsx')
+wb = openpyxl.load_workbook('file_path')
+
 # Open the desired worksheet in the xlsx file
-sheet = wb['Sheet1']
+sheet = wb['sheet_name']
 
 # Create a new workbook for Lands
 wb1 = openpyxl.Workbook()
@@ -14,7 +15,13 @@ ws1 = wb1.active
 wb2 = openpyxl.Workbook()
 ws2 = wb2.active
 
-# Make the header for each column
+# Make a wordlist for keywords that indicates that the property type is a land
+l = ['''write the keywords''']
+    
+# Make a wordlist for keywords that indicates that the property type is a house
+h = ['''write the keywords''']
+
+# add the header for each column
 for j in range(1,8) :
     ws1.cell(row = 1, column = j).value = ws2.cell(row = 1, column = j).value = sheet.cell(row = 1, column = j).value
 
@@ -24,35 +31,30 @@ i=2
 # Loop through the rows
 while i < sheet.max_row+1 :
     
-    # Acess the cell in the i row, A column
-    cell = sheet.cell(row = i, column = 1)
-
-    # Make a wordlist for keywords that indicates that the property type is a land
-    l = ['terrain','TERRAIN','Terrain','hectare','Hectare','HECTARE','lot','Lot','LOT','lotissement','Lotissement','LOTISSEMENT','أرض','ارض']
+    # Acess the title cell in the i row, A column
+    title = sheet.cell(row = i, column = 1)
     
-    # Make a wordlist for keywords that indicates that the property type is not a house
-    h = ['depot','dépot','batiment','ferme','inachevé','fond','commerce','commercial','bureau','garage','parcelle','usine']
-    
-    # Check if the cell contains a keyword from the land wordlist
-    if (cell.value != None) and any(keyword in cell.value for keyword in l) :
+    # Check if the property is a land
+    if (title.value != None) and any(keyword in title.value for keyword in l) :
 
         # Print the accessed cell
-        print(i,'LAND: ',cell.value)
+        print(i,'LAND: ',title.value)
 
         # Add this row to the lands file
-        ws1.append([cell.value for cell in sheet[i]])
-    
-    elif (cell.value != None) and (keyword not in cell.value for keyword in h) :
+        ws1.append([title.value for title in sheet[i]])
+
+    # Check if the property is a house
+    elif (title.value != None) and any(keyword in title.value for keyword in h) :
         
         # Print the accessed cell
-        print(i,'HOUSE: ',cell.value)
+        print(i,'HOUSE: ',title.value)
 
         # Add this row to the houses file
-        ws2.append([cell.value for cell in sheet[i]])
+        ws2.append([title.value for title in sheet[i]])
 
     i+=1
 
 # Save the output workbooks
 print('-------------------------Saving files-------------------------')
-wb1.save('../Data sheets/LANDS.xlsx')
-wb2.save('../Data sheets/HOUSES.xlsx')
+wb1.save('file_path')
+wb2.save('file_path')
