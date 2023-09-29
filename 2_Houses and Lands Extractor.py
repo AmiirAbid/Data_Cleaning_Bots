@@ -41,7 +41,7 @@ while i < sheet.max_row+1 :
         print(i,'LAND: ',title.value)
 
         # Add this row to the lands file
-        ws1.append([title.value for title in sheet[i]])
+        ws1.append([title.value for cell in sheet[i]])
 
     # Check if the property is a house
     elif (title.value != None) and any(keyword in title.value for keyword in h) :
@@ -50,7 +50,7 @@ while i < sheet.max_row+1 :
         print(i,'HOUSE: ',title.value)
 
         # Add this row to the houses file
-        ws2.append([title.value for title in sheet[i]])
+        ws2.append([cell.value for cell in sheet[i]])
 
     i+=1
 
